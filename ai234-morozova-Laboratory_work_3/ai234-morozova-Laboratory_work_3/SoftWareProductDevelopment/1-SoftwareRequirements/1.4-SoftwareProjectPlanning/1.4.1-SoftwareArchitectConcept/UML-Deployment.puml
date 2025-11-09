@@ -1,0 +1,54 @@
+@startuml
+title UML-діаграма розгортання ПП "Інтерактивна система відеоконференцій з аналізом параметрів освітлення"
+left to right direction
+skinparam componentStyle uml1
+
+node "<<User Device>>" as user {
+    node "<<Operating System Windows / Android / iOS>>" as os {
+        node "<<Web Browser / Mobile App>>" as app {
+            component [React / Flutter\nHTML5 + JavaScript]
+        }
+    }
+}
+
+interface Camera
+interface Microphone
+interface LightSensor
+interface Keyboard
+interface Mouse
+
+Camera -- user
+Microphone -- user
+LightSensor -- user
+Keyboard -- user
+Mouse -- user
+
+node "<<Server 1>>" as serv1 {
+    node "<<Operating System Linux>>" as linux1 {
+        node "<<Application Server>>" as appserv {
+            component [Node.js / FastAPI\nREST API + WebSocket]
+            component [Signaling Server\n(WebRTC / Socket.io)]
+        }
+    }
+}
+
+node "<<Server 2>>" as serv2 {
+    node "<<Operating System Linux>>" as linux2 {
+        node "<<Database Server>>" as dbserv {
+            database [PostgreSQL\nJSONB structure]
+        }
+        node "<<Cache Server>>" {
+            component [Redis]
+        }
+        node "<<Object Storage>>" {
+            component [S3 / MinIO]
+        }
+    }
+}
+
+user -- serv1 : HTTPS / WebSocket\n(управління, сигнальний потік)
+serv1 -- serv2 : SQL / JSON\n(дані користувачів, сесії)
+user -- serv1 : WebRTC (медіапотік)
+user -- serv2 : REST запити (опціонально)
+
+@enduml

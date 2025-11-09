@@ -1,0 +1,52 @@
+@startuml
+hide circle
+title Концептуальна UML-діаграма
+
+Class User {
+    full_name
+    user_role
+}
+
+Class Workplace {
+    description
+}
+
+Class WorkplaceAssessment {
+    assessment_date
+    assessment_result
+}
+
+Class LightingLevel {
+    light_level
+}
+
+Class SafetyRisk {
+    risk_type
+    risk_details
+}
+
+Class Recommendation {
+    recommendations_text
+}
+
+Class VideoConference {
+    topic
+    start_time
+}
+
+Class Participant {
+    full_name
+}
+
+User "1" --> "+" WorkplaceAssessment : to initiate / to view
+WorkplaceAssessment "1" --> "1" Workplace : to evaluate
+WorkplaceAssessment "1" *-- "1" LightingLevel 
+WorkplaceAssessment "1" *-- "+" SafetyRisk 
+WorkplaceAssessment "1" *-- "+" Recommendation 
+
+User "1" --> "+" VideoConference : to create
+VideoConference "1" *-- "+" Participant 
+
+
+@enduml
+

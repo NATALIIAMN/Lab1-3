@@ -1,0 +1,74 @@
+@startuml
+
+title Логічна схема реляційної БД
+
+hide circle
+
+entity "User" as USER {
+    (PK) user_id
+    --
+    full_name
+    user_role
+}
+
+entity "Workplace" as WORKPLACE {
+    (PK) workplace_id
+    --
+    description
+}
+
+entity "Workplace_Assessment" as ASSESSMENT {
+    (PK) assessment_id
+    --
+    assessment_date
+    assessment_result
+    (FK) user_id
+    (FK) workplace_id
+}
+
+entity "Lighting_Level" as LIGHTING {
+    (PK) lighting_level_id
+    --
+    light_level
+    (FK) assessment_id
+}
+
+entity "Safety_Risk" as RISK {
+    (PK) risk_id
+    --
+    risk_type
+    risk_details
+    (FK) assessment_id
+}
+
+entity "Recommendation" as RECOMMENDATION {
+    (PK) recommendation_id
+    --
+    recommendations_text
+    (FK) assessment_id
+}
+
+entity "Video_Conference" as CONFERENCE {
+    (PK) conference_id
+    --
+    topic
+    start_time
+    (FK) user_id
+}
+
+entity "Participant" as PARTICIPANT {
+    (PK) participant_id
+    --
+    full_name
+    (FK) conference_id
+}
+
+USER ||--o{ ASSESSMENT
+WORKPLACE ||--o{ ASSESSMENT
+ASSESSMENT ||--|| LIGHTING
+ASSESSMENT ||--o{ RISK
+ASSESSMENT ||--o{ RECOMMENDATION
+USER ||--o{ CONFERENCE
+CONFERENCE ||--o{ PARTICIPANT
+
+@enduml
